@@ -12,14 +12,14 @@ import Entypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 //import Footer from "../components/Footer";
 
-const PairShoppingListScreen = ({ navigate }) => {
+const PairShoppingListScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Pair Shopping List</Text>
-        <TouchableOpacity onPress={() => navigate("HomeScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
           <FontAwesome name="home" size={28} color="#000" />
         </TouchableOpacity>
       </View>
@@ -44,7 +44,7 @@ const PairShoppingListScreen = ({ navigate }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.cancelButton}
-        onPress={() => navigate("HomeScreen")}
+        onPress={() => navigation.navigate("HomeScreen")}
       >
         <Text style={styles.buttonText}>Cancel</Text>
       </TouchableOpacity>
