@@ -1,30 +1,67 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import {Link} from "expo-router";
-import { MaterialIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-export default function HomeScreen() {
-  // return (
-  //  
-  // );
+export default function Home() {
+  return (
+    <View style={styles.container}>
+      <View style={styles.margin}>
+        <Text style={styles.text}>Welcome User!</Text>
+        <Text style={styles.text}>Weekly Deals</Text>
+        <View style={styles.boxContainer}>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+        </View>
+        <View style={styles.boxContainer}>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+        </View>
+        <Text style={styles.text}>Recently Purcased</Text>
+        <View style={styles.boxContainer}>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+        </View>
+        <View style={styles.boxContainer}>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+          <TouchableOpacity style={styles.box}></TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#457fa2',
+  },
+  margin: {
+    margin: 15,
+    backgroundColor: "transparent",
+  },
+  boxContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    backgroundColor: "transparent",
+    marginBottom: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  box: {
+    backgroundColor: 'grey',
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    opacity: 0.6,
+  
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 20,
+    marginTop: 20,
   },
 });
