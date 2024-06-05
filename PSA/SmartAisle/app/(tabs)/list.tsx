@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {Link} from "expo-router";
+import { Link } from "expo-router";
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function List() {
