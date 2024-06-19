@@ -1,5 +1,3 @@
-// created by whole group Project 6.2 IT (PSA)
-
 import SwiftUI
 
 struct Footer: View {
@@ -9,7 +7,7 @@ struct Footer: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            ForEach([Screen.home, Screen.pairShoppingList, Screen.registration, Screen.search, Screen.settings], id: \.self) { screen in
+            ForEach([Screen.home, Screen.shoppingList, Screen.registration, Screen.search, Screen.settings], id: \.self) { screen in
                 TabButton(screen: screen)
             }
         }

@@ -1,9 +1,11 @@
 import SwiftUI
+import Firebase
 
 struct LoginScreen: View {
     @Binding var navigate: Screen
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var errorMessage: String?
 
     var body: some View {
         NavigationView {
@@ -18,55 +20,32 @@ struct LoginScreen: View {
                             .padding(.bottom, 40)
 
                         VStack(spacing: 20) {
-                            HStack {
-                                Image(systemName: "envelope")
-                                    .foregroundColor(.black)
-                                TextField("email@gmail.com", text: $email)
-                                    .foregroundColor(.black) // Ensure input text color is black
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(30)
-                                    .keyboardType(.emailAddress)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                            }
-                            .padding(.horizontal)
-                            .frame(height: 50)
-                            .background(Color.white)
-                            .cornerRadius(30)
+                            CustomTextField(systemImageName: "envelope", placeholder: "Email", text: $email, isSecure: false)
+                            CustomTextField(systemImageName: "lock", placeholder: "Password", text: $password, isSecure: true)
+                        }
 
-                            HStack {
-                                Image(systemName: "lock")
-                                    .foregroundColor(.black)
-                                SecureField("********", text: $password)
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(30)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                            }
-                            .padding(.horizontal)
-                            .frame(height: 50) // Ensure the same height as login button
-                            .background(Color.white)
-                            .cornerRadius(30)
+                        if let errorMessage = errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .padding(.top, 10)
                         }
 
                         Button(action: {
-                            navigate = .home
+                            login()
                         }) {
                             Text("Login")
                                 .fontWeight(.bold)
                                 .foregroundColor(.black)
                                 .padding()
-                                .frame(maxWidth: .infinity, maxHeight: 50) 
+                                .frame(maxWidth: .infinity, maxHeight: 50)
                                 .background(Color.white)
                                 .cornerRadius(30)
+                                .shadow(radius: 5)
                         }
                         .padding(.top, 20)
 
                         Button(action: {
-                            navigate = .changePassword
+                            navigate = .forgotPassword
                         }) {
                             Text("Forgot Password?")
                                 .foregroundColor(.black)
@@ -95,6 +74,59 @@ struct LoginScreen: View {
                     }
                 })
         }
+    }
+
+    func login() {
+        AuthService.shared.login(email: email, password: password) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let user):
+                    // Fetch the current user and get the display name
+                    if let currentUser = Auth.auth().currentUser {
+                        navigate = .homeScreen(currentUser.displayName ?? "User")
+                    }
+                case .failure(let error):
+                    errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+}
+
+struct CustomTextField: View {
+    let systemImageName: String
+    let placeholder: String
+    @Binding var text: String
+    let isSecure: Bool
+
+    var body: some View {
+        HStack {
+            Image(systemName: systemImageName)
+                .foregroundColor(.black)
+            if isSecure {
+                SecureField(placeholder, text: $text)
+                    .foregroundColor(.black)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(30)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+            } else {
+                TextField(placeholder, text: $text)
+                    .foregroundColor(.black)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(30)
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+            }
+        }
+        .padding(.horizontal)
+        .frame(height: 50)
+        .background(Color.white)
+        .cornerRadius(30)
+        .shadow(radius: 5)
     }
 }
 
