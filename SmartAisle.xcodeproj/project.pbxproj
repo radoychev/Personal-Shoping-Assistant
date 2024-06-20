@@ -7,13 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9507320E2C24C4D200BEFC7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950731FF2C24C4D100BEFC7C /* AppDelegate.swift */; };
+		9507320F2C24C4D200BEFC7C /* PairingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732002C24C4D100BEFC7C /* PairingRequest.swift */; };
+		950732102C24C4D200BEFC7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 950732012C24C4D100BEFC7C /* Assets.xcassets */; };
+		950732112C24C4D200BEFC7C /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732022C24C4D100BEFC7C /* ForgotPasswordScreen.swift */; };
+		950732122C24C4D200BEFC7C /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732032C24C4D100BEFC7C /* Product.swift */; };
+		950732132C24C4D200BEFC7C /* ShoppingListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732042C24C4D100BEFC7C /* ShoppingListManager.swift */; };
+		950732142C24C4D200BEFC7C /* ShoppingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732052C24C4D100BEFC7C /* ShoppingListScreen.swift */; };
+		950732152C24C4D200BEFC7C /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732062C24C4D100BEFC7C /* AuthService.swift */; };
+		950732162C24C4D200BEFC7C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732072C24C4D200BEFC7C /* HomeViewModel.swift */; };
+		950732172C24C4D200BEFC7C /* ProductDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732082C24C4D200BEFC7C /* ProductDetailScreen.swift */; };
+		950732182C24C4D200BEFC7C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 950732092C24C4D200BEFC7C /* GoogleService-Info.plist */; };
+		950732192C24C4D200BEFC7C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9507320A2C24C4D200BEFC7C /* Preview Assets.xcassets */; };
+		9507321A2C24C4D200BEFC7C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9507320C2C24C4D200BEFC7C /* NetworkManager.swift */; };
+		9507321B2C24C4D200BEFC7C /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9507320D2C24C4D200BEFC7C /* ProductDetailView.swift */; };
+		9507321E2C24C64100BEFC7C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9507321D2C24C64100BEFC7C /* FirebaseAuth */; };
+		950732202C24C64100BEFC7C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 9507321F2C24C64100BEFC7C /* FirebaseDatabase */; };
+		950732222C24C64100BEFC7C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 950732212C24C64100BEFC7C /* FirebaseFirestore */; };
+		950732242C24C6AE00BEFC7C /* WeeklyDealsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732232C24C6AE00BEFC7C /* WeeklyDealsManager.swift */; };
+		950732262C24C7D700BEFC7C /* SharedShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732252C24C7D700BEFC7C /* SharedShoppingListView.swift */; };
+		950732282C24C80100BEFC7C /* RegistrationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732272C24C80100BEFC7C /* RegistrationScreen.swift */; };
 		95D86BA52C182C90008E9C2A /* SmartAisleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BA42C182C90008E9C2A /* SmartAisleApp.swift */; };
 		95D86BA72C182C90008E9C2A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BA62C182C90008E9C2A /* ContentView.swift */; };
 		95D86BA92C182C91008E9C2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95D86BA82C182C91008E9C2A /* Assets.xcassets */; };
 		95D86BAC2C182C91008E9C2A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95D86BAB2C182C91008E9C2A /* Preview Assets.xcassets */; };
 		95D86BB92C1835B2008E9C2A /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BB82C1835B2008E9C2A /* WelcomeScreen.swift */; };
 		95D86BBB2C1835E5008E9C2A /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BBA2C1835E5008E9C2A /* LoginScreen.swift */; };
-		95D86BBD2C183618008E9C2A /* RegistrationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BBC2C183618008E9C2A /* RegistrationScreen.swift */; };
 		95D86BBF2C1839E0008E9C2A /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BBE2C1839E0008E9C2A /* Screen.swift */; };
 		95D86BC12C183FDE008E9C2A /* AboutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BC02C183FDE008E9C2A /* AboutScreen.swift */; };
 		95D86BC32C183FF2008E9C2A /* AdminPanelScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BC22C183FF2008E9C2A /* AdminPanelScreen.swift */; };
@@ -28,6 +47,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		950731FF2C24C4D100BEFC7C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		950732002C24C4D100BEFC7C /* PairingRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PairingRequest.swift; sourceTree = "<group>"; };
+		950732012C24C4D100BEFC7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		950732022C24C4D100BEFC7C /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
+		950732032C24C4D100BEFC7C /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		950732042C24C4D100BEFC7C /* ShoppingListManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShoppingListManager.swift; sourceTree = "<group>"; };
+		950732052C24C4D100BEFC7C /* ShoppingListScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShoppingListScreen.swift; sourceTree = "<group>"; };
+		950732062C24C4D100BEFC7C /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		950732072C24C4D200BEFC7C /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		950732082C24C4D200BEFC7C /* ProductDetailScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailScreen.swift; sourceTree = "<group>"; };
+		950732092C24C4D200BEFC7C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9507320A2C24C4D200BEFC7C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9507320C2C24C4D200BEFC7C /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9507320D2C24C4D200BEFC7C /* ProductDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		950732232C24C6AE00BEFC7C /* WeeklyDealsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyDealsManager.swift; sourceTree = "<group>"; };
+		950732252C24C7D700BEFC7C /* SharedShoppingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedShoppingListView.swift; sourceTree = "<group>"; };
+		950732272C24C80100BEFC7C /* RegistrationScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationScreen.swift; path = "../../../../Desktop/Backup/SmartAisle 2/SmartAisle/RegistrationScreen.swift"; sourceTree = "<group>"; };
 		95D86BA12C182C90008E9C2A /* SmartAisle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartAisle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D86BA42C182C90008E9C2A /* SmartAisleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartAisleApp.swift; sourceTree = "<group>"; };
 		95D86BA62C182C90008E9C2A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -35,7 +71,6 @@
 		95D86BAB2C182C91008E9C2A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		95D86BB82C1835B2008E9C2A /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		95D86BBA2C1835E5008E9C2A /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
-		95D86BBC2C183618008E9C2A /* RegistrationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationScreen.swift; sourceTree = "<group>"; };
 		95D86BBE2C1839E0008E9C2A /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		95D86BC02C183FDE008E9C2A /* AboutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScreen.swift; sourceTree = "<group>"; };
 		95D86BC22C183FF2008E9C2A /* AdminPanelScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPanelScreen.swift; sourceTree = "<group>"; };
@@ -54,12 +89,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				950732202C24C64100BEFC7C /* FirebaseDatabase in Frameworks */,
+				9507321E2C24C64100BEFC7C /* FirebaseAuth in Frameworks */,
+				950732222C24C64100BEFC7C /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9507320B2C24C4D200BEFC7C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				9507320A2C24C4D200BEFC7C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		95D86B982C182C90008E9C2A = {
 			isa = PBXGroup;
 			children = (
@@ -82,7 +128,25 @@
 				95D86BA42C182C90008E9C2A /* SmartAisleApp.swift */,
 				95D86BA62C182C90008E9C2A /* ContentView.swift */,
 				95D86BD02C1840BC008E9C2A /* Footer.swift */,
+				950731FF2C24C4D100BEFC7C /* AppDelegate.swift */,
+				950732272C24C80100BEFC7C /* RegistrationScreen.swift */,
+				9507320B2C24C4D200BEFC7C /* Preview Content */,
+				FC54321F2C22361B00FE9262 /* SplashScreen.swift */,
+				950732012C24C4D100BEFC7C /* Assets.xcassets */,
+				950732062C24C4D100BEFC7C /* AuthService.swift */,
+				950732022C24C4D100BEFC7C /* ForgotPasswordScreen.swift */,
+				950732092C24C4D200BEFC7C /* GoogleService-Info.plist */,
+				950732072C24C4D200BEFC7C /* HomeViewModel.swift */,
+				9507320C2C24C4D200BEFC7C /* NetworkManager.swift */,
+				950732002C24C4D100BEFC7C /* PairingRequest.swift */,
+				950732032C24C4D100BEFC7C /* Product.swift */,
+				950732082C24C4D200BEFC7C /* ProductDetailScreen.swift */,
+				9507320D2C24C4D200BEFC7C /* ProductDetailView.swift */,
+				950732042C24C4D100BEFC7C /* ShoppingListManager.swift */,
+				950732252C24C7D700BEFC7C /* SharedShoppingListView.swift */,
+				950732052C24C4D100BEFC7C /* ShoppingListScreen.swift */,
 				95D86BCE2C18406A008E9C2A /* SettingsScreen.swift */,
+				950732232C24C6AE00BEFC7C /* WeeklyDealsManager.swift */,
 				95D86BCC2C18405C008E9C2A /* SearchScreen.swift */,
 				95D86BCA2C184047008E9C2A /* PairShoppingListScreen.swift */,
 				95D86BC82C184036008E9C2A /* HomeScreen.swift */,
@@ -91,12 +155,10 @@
 				95D86BC22C183FF2008E9C2A /* AdminPanelScreen.swift */,
 				95D86BC02C183FDE008E9C2A /* AboutScreen.swift */,
 				95D86BBE2C1839E0008E9C2A /* Screen.swift */,
-				95D86BBC2C183618008E9C2A /* RegistrationScreen.swift */,
 				95D86BBA2C1835E5008E9C2A /* LoginScreen.swift */,
 				95D86BB82C1835B2008E9C2A /* WelcomeScreen.swift */,
 				95D86BA82C182C91008E9C2A /* Assets.xcassets */,
 				95D86BAA2C182C91008E9C2A /* Preview Content */,
-				FC54321F2C22361B00FE9262 /* SplashScreen.swift */,
 			);
 			path = SmartAisle;
 			sourceTree = "<group>";
@@ -125,6 +187,11 @@
 			dependencies = (
 			);
 			name = SmartAisle;
+			packageProductDependencies = (
+				9507321D2C24C64100BEFC7C /* FirebaseAuth */,
+				9507321F2C24C64100BEFC7C /* FirebaseDatabase */,
+				950732212C24C64100BEFC7C /* FirebaseFirestore */,
+			);
 			productName = SmartAisle;
 			productReference = 95D86BA12C182C90008E9C2A /* SmartAisle.app */;
 			productType = "com.apple.product-type.application";
@@ -153,6 +220,9 @@
 				Base,
 			);
 			mainGroup = 95D86B982C182C90008E9C2A;
+			packageReferences = (
+				9507321C2C24C64100BEFC7C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 95D86BA22C182C90008E9C2A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -168,6 +238,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				95D86BAC2C182C91008E9C2A /* Preview Assets.xcassets in Resources */,
+				950732182C24C4D200BEFC7C /* GoogleService-Info.plist in Resources */,
+				950732192C24C4D200BEFC7C /* Preview Assets.xcassets in Resources */,
+				950732102C24C4D200BEFC7C /* Assets.xcassets in Resources */,
 				95D86BA92C182C91008E9C2A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,22 +252,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95D86BBD2C183618008E9C2A /* RegistrationScreen.swift in Sources */,
+				950732152C24C4D200BEFC7C /* AuthService.swift in Sources */,
 				95D86BA72C182C90008E9C2A /* ContentView.swift in Sources */,
+				9507320F2C24C4D200BEFC7C /* PairingRequest.swift in Sources */,
 				95D86BC32C183FF2008E9C2A /* AdminPanelScreen.swift in Sources */,
 				95D86BB92C1835B2008E9C2A /* WelcomeScreen.swift in Sources */,
+				950732142C24C4D200BEFC7C /* ShoppingListScreen.swift in Sources */,
 				95D86BCD2C18405C008E9C2A /* SearchScreen.swift in Sources */,
+				950732242C24C6AE00BEFC7C /* WeeklyDealsManager.swift in Sources */,
+				950732112C24C4D200BEFC7C /* ForgotPasswordScreen.swift in Sources */,
 				95D86BC92C184036008E9C2A /* HomeScreen.swift in Sources */,
 				95D86BC72C184018008E9C2A /* EmailScreen.swift in Sources */,
+				950732282C24C80100BEFC7C /* RegistrationScreen.swift in Sources */,
 				95D86BA52C182C90008E9C2A /* SmartAisleApp.swift in Sources */,
 				FC5432202C22361B00FE9262 /* SplashScreen.swift in Sources */,
+				950732262C24C7D700BEFC7C /* SharedShoppingListView.swift in Sources */,
 				95D86BCF2C18406A008E9C2A /* SettingsScreen.swift in Sources */,
+				950732132C24C4D200BEFC7C /* ShoppingListManager.swift in Sources */,
 				95D86BD12C1840BC008E9C2A /* Footer.swift in Sources */,
+				9507321A2C24C4D200BEFC7C /* NetworkManager.swift in Sources */,
 				95D86BC52C184003008E9C2A /* ChangePasswordScreen.swift in Sources */,
 				95D86BBB2C1835E5008E9C2A /* LoginScreen.swift in Sources */,
 				95D86BC12C183FDE008E9C2A /* AboutScreen.swift in Sources */,
+				950732162C24C4D200BEFC7C /* HomeViewModel.swift in Sources */,
+				950732172C24C4D200BEFC7C /* ProductDetailScreen.swift in Sources */,
 				95D86BBF2C1839E0008E9C2A /* Screen.swift in Sources */,
+				950732122C24C4D200BEFC7C /* Product.swift in Sources */,
+				9507320E2C24C4D200BEFC7C /* AppDelegate.swift in Sources */,
 				95D86BCB2C184047008E9C2A /* PairShoppingListScreen.swift in Sources */,
+				9507321B2C24C4D200BEFC7C /* ProductDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +486,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9507321C2C24C64100BEFC7C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.28.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9507321D2C24C64100BEFC7C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9507321C2C24C64100BEFC7C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		9507321F2C24C64100BEFC7C /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9507321C2C24C64100BEFC7C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		950732212C24C64100BEFC7C /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9507321C2C24C64100BEFC7C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 95D86B992C182C90008E9C2A /* Project object */;
 }
