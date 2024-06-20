@@ -24,6 +24,7 @@
 		95D86BCD2C18405C008E9C2A /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BCC2C18405C008E9C2A /* SearchScreen.swift */; };
 		95D86BCF2C18406A008E9C2A /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BCE2C18406A008E9C2A /* SettingsScreen.swift */; };
 		95D86BD12C1840BC008E9C2A /* Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BD02C1840BC008E9C2A /* Footer.swift */; };
+		FC5432202C22361B00FE9262 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC54321F2C22361B00FE9262 /* SplashScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		95D86BCC2C18405C008E9C2A /* SearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
 		95D86BCE2C18406A008E9C2A /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		95D86BD02C1840BC008E9C2A /* Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Footer.swift; sourceTree = "<group>"; };
+		FC54321F2C22361B00FE9262 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				95D86BB82C1835B2008E9C2A /* WelcomeScreen.swift */,
 				95D86BA82C182C91008E9C2A /* Assets.xcassets */,
 				95D86BAA2C182C91008E9C2A /* Preview Content */,
+				FC54321F2C22361B00FE9262 /* SplashScreen.swift */,
 			);
 			path = SmartAisle;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				95D86BC92C184036008E9C2A /* HomeScreen.swift in Sources */,
 				95D86BC72C184018008E9C2A /* EmailScreen.swift in Sources */,
 				95D86BA52C182C90008E9C2A /* SmartAisleApp.swift in Sources */,
+				FC5432202C22361B00FE9262 /* SplashScreen.swift in Sources */,
 				95D86BCF2C18406A008E9C2A /* SettingsScreen.swift in Sources */,
 				95D86BD12C1840BC008E9C2A /* Footer.swift in Sources */,
 				95D86BC52C184003008E9C2A /* ChangePasswordScreen.swift in Sources */,
