@@ -40,13 +40,13 @@ struct HomeScreen: View {
                         .fontWeight(.bold)
                         .foregroundColor(.black)
                         .padding(.bottom, 10)
-
+                    
                     Text("Weekly Deals")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
                         .padding(.bottom, 10)
-
+                    
                     if weeklyDealsManager.weeklyDeals.isEmpty {
                         Text("No weekly deals available.")
                             .foregroundColor(.gray)
@@ -58,26 +58,26 @@ struct HomeScreen: View {
                                     if let url = URL(string: deal.productImageURL) {
                                         AsyncImage(url: url) { phase in
                                             switch phase {
-                                            case .empty:
-                                                ProgressView()
-                                            case .success(let image):
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 60, height: 60)
-                                                    .cornerRadius(10)
-                                            case .failure:
-                                                Image(systemName: "photo")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 60, height: 60)
-                                                    .cornerRadius(10)
-                                            @unknown default:
-                                                Image(systemName: "photo")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 60, height: 60)
-                                                    .cornerRadius(10)
+                                                case .empty:
+                                                    ProgressView()
+                                                case .success(let image):
+                                                    image
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 60, height: 60)
+                                                        .cornerRadius(10)
+                                                case .failure:
+                                                    Image(systemName: "photo")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 60, height: 60)
+                                                        .cornerRadius(10)
+                                                @unknown default:
+                                                    Image(systemName: "photo")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 60, height: 60)
+                                                        .cornerRadius(10)
                                             }
                                         }
                                     } else {
@@ -87,12 +87,12 @@ struct HomeScreen: View {
                                             .frame(width: 60, height: 60)
                                             .cornerRadius(10)
                                     }
-
+                                    
                                     Text(deal.productName)
                                         .font(.caption)
                                         .multilineTextAlignment(.center)
                                         .lineLimit(2)
-
+                                    
                                     Text("€\(String(format: "%.2f", deal.productPrice))")
                                         .font(.caption)
                                         .foregroundColor(.gray)
@@ -104,30 +104,8 @@ struct HomeScreen: View {
                             }
                         }
                     }
-
-                    Text("Recently Purchased")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-                        .padding(.bottom, 10)
-
-                    VStack(spacing: 20) {
-                        ForEach(0..<2) { _ in
-                            HStack(spacing: 20) {
-                                ForEach(0..<3) { _ in
-                                    Rectangle()
-                                        .fill(Color.gray)
-                                        .frame(width: 100, height: 100)
-                                        .cornerRadius(10)
-                                        .opacity(0.6)
-                                }
-                            }
-                        }
-                    }
                 }
-                .padding()
             }
-
             Footer(navigate: $navigate)
                 .frame(maxWidth: .infinity, maxHeight: 80)
                 .background(Color(red: 0.12, green: 0.51, blue: 0.68))
