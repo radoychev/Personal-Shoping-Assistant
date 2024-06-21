@@ -127,6 +127,9 @@ struct AdminPanelScreen: View {
         .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.53, green: 0.81, blue: 0.92)]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)
         .navigationBarHidden(true)
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 
     private func searchProducts() {
@@ -168,6 +171,10 @@ struct AdminPanelScreen: View {
         }
         self.errorMessage = "Deals successfully saved!"
     }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 
 struct SearchBar: UIViewRepresentable {
@@ -188,6 +195,7 @@ struct SearchBar: UIViewRepresentable {
         }
 
         func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.resignFirstResponder() // This will close the keyboard
             onSearchButtonClicked()
         }
     }

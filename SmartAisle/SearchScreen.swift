@@ -94,7 +94,7 @@ struct SearchScreen: View {
                                     .font(.title)
                                     .foregroundColor(.green)
                             }
-                            .buttonStyle(BorderlessButtonStyle()) // Use BorderlessButtonStyle to prevent the button from taking the entire tap area
+                            .buttonStyle(BorderlessButtonStyle())
                         }
                     }
                 }
@@ -117,7 +117,7 @@ struct SearchScreen: View {
             switch result {
             case .success(let products):
                 DispatchQueue.main.async {
-                    print("Retrieved products: \(products)") // Add this line for debugging
+                    print("Retrieved products: \(products)") //debugging
                     self.searchResults = products
                 }
             case .failure(let error):

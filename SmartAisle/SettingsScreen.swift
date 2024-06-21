@@ -122,7 +122,7 @@ struct SettingsScreen: View {
     }
     
     private func authenticateAdminPassword() {
-        let correctAdminPassword = "admin123" // Replace with your actual admin password
+        let correctAdminPassword = "admin123" // admin password
         if adminPassword == correctAdminPassword {
             navigate = .adminPanel
         } else {

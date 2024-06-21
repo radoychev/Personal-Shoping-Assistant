@@ -101,9 +101,9 @@ struct ProductInfoView: View {
 struct AddToCartButton: View {
     var body: some View {
         Button(action: {
-            // Add to cart action
+            // Add to shopping List
         }) {
-            Text("Add to cart")
+            Text("Add to Shopping List")
                 .font(.headline)
                 .foregroundColor(.white)
                 .padding()
@@ -183,7 +183,7 @@ class ProductDetailViewModel: ObservableObject {
 // Preview
 struct ProductDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
-        // Provide a sample product for preview
+        // sample product for preview
         let sampleProduct = Product(
             id: "1",
             title: "Sample Product",

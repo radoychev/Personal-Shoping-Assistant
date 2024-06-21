@@ -61,24 +61,8 @@ struct ProductDetailView: View {
                             .foregroundColor(.gray)
                             .padding([.horizontal, .bottom])
 
-                        // Add to Cart Button
-                        Button(action: {
-                            // Add to cart functionality
-                        }) {
-                            HStack {
-                                Spacer()
-                                Text("Add to cart")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                Image(systemName: "cart.fill")
-                                    .foregroundColor(.white)
-                                Spacer()
-                            }
-                            .padding()
-                            .background(Color.green)
-                            .cornerRadius(10)
-                            .padding(.horizontal)
-                        }
+                    
+                        
 
                         // Product Description
                         Text("Product Description")
