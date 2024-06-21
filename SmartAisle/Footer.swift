@@ -7,7 +7,7 @@ struct Footer: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            ForEach([Screen.home, Screen.shoppingList, Screen.registration, Screen.search, Screen.settings], id: \.self) { screen in
+            ForEach([Screen.home, Screen.shoppingList, Screen.emailScreen, Screen.search, Screen.settings], id: \.self) { screen in
                 TabButton(screen: screen)
             }
         }
@@ -40,7 +40,7 @@ struct Footer: View {
     
     func iconName(for screen: Screen) -> String {
         switch screen {
-        case .registration:
+        case .emailScreen:
             return "arkit"
         default:
             return screen.iconName
@@ -49,7 +49,7 @@ struct Footer: View {
     
     func selectedIconName(for screen: Screen) -> String {
         switch screen {
-        case .registration:
+        case .emailScreen:
             return "arkit"
         case .search:
             return "magnifyingglass" // No fill version available

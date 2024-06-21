@@ -7,7 +7,7 @@ struct SmartAisleApp: App {
     @StateObject private var shoppingListManager = ShoppingListManager()
     @StateObject private var weeklyDealsManager = WeeklyDealsManager()
 
-    @State private var currentScreen: Screen = .search
+    @State private var currentScreen: Screen = .welcome
     @State private var selectedProduct: Product?
     @State private var searchText: String = ""
     @State private var searchResults: [Product] = []
