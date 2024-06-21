@@ -26,7 +26,7 @@
 		950732222C24C64100BEFC7C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 950732212C24C64100BEFC7C /* FirebaseFirestore */; };
 		950732242C24C6AE00BEFC7C /* WeeklyDealsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732232C24C6AE00BEFC7C /* WeeklyDealsManager.swift */; };
 		950732262C24C7D700BEFC7C /* SharedShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732252C24C7D700BEFC7C /* SharedShoppingListView.swift */; };
-		950732282C24C80100BEFC7C /* RegistrationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950732272C24C80100BEFC7C /* RegistrationScreen.swift */; };
+		95255B3C2C25F8F5006EDC2B /* RegistrationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95255B3B2C25F8F5006EDC2B /* RegistrationScreen.swift */; };
 		95D86BA52C182C90008E9C2A /* SmartAisleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BA42C182C90008E9C2A /* SmartAisleApp.swift */; };
 		95D86BA72C182C90008E9C2A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D86BA62C182C90008E9C2A /* ContentView.swift */; };
 		95D86BA92C182C91008E9C2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95D86BA82C182C91008E9C2A /* Assets.xcassets */; };
@@ -63,7 +63,7 @@
 		9507320D2C24C4D200BEFC7C /* ProductDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		950732232C24C6AE00BEFC7C /* WeeklyDealsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyDealsManager.swift; sourceTree = "<group>"; };
 		950732252C24C7D700BEFC7C /* SharedShoppingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedShoppingListView.swift; sourceTree = "<group>"; };
-		950732272C24C80100BEFC7C /* RegistrationScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationScreen.swift; path = "../../../../Desktop/Backup/SmartAisle 2/SmartAisle/RegistrationScreen.swift"; sourceTree = "<group>"; };
+		95255B3B2C25F8F5006EDC2B /* RegistrationScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationScreen.swift; sourceTree = "<group>"; };
 		95D86BA12C182C90008E9C2A /* SmartAisle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartAisle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D86BA42C182C90008E9C2A /* SmartAisleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartAisleApp.swift; sourceTree = "<group>"; };
 		95D86BA62C182C90008E9C2A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,8 +128,8 @@
 				95D86BA42C182C90008E9C2A /* SmartAisleApp.swift */,
 				95D86BA62C182C90008E9C2A /* ContentView.swift */,
 				95D86BD02C1840BC008E9C2A /* Footer.swift */,
+				95255B3B2C25F8F5006EDC2B /* RegistrationScreen.swift */,
 				950731FF2C24C4D100BEFC7C /* AppDelegate.swift */,
-				950732272C24C80100BEFC7C /* RegistrationScreen.swift */,
 				9507320B2C24C4D200BEFC7C /* Preview Content */,
 				FC54321F2C22361B00FE9262 /* SplashScreen.swift */,
 				950732012C24C4D100BEFC7C /* Assets.xcassets */,
@@ -261,9 +261,9 @@
 				95D86BCD2C18405C008E9C2A /* SearchScreen.swift in Sources */,
 				950732242C24C6AE00BEFC7C /* WeeklyDealsManager.swift in Sources */,
 				950732112C24C4D200BEFC7C /* ForgotPasswordScreen.swift in Sources */,
+				95255B3C2C25F8F5006EDC2B /* RegistrationScreen.swift in Sources */,
 				95D86BC92C184036008E9C2A /* HomeScreen.swift in Sources */,
 				95D86BC72C184018008E9C2A /* EmailScreen.swift in Sources */,
-				950732282C24C80100BEFC7C /* RegistrationScreen.swift in Sources */,
 				95D86BA52C182C90008E9C2A /* SmartAisleApp.swift in Sources */,
 				FC5432202C22361B00FE9262 /* SplashScreen.swift in Sources */,
 				950732262C24C7D700BEFC7C /* SharedShoppingListView.swift in Sources */,

@@ -84,7 +84,7 @@ enum Screen: Hashable {
         case .productDetailScreen:
             return "Product Detail"
         case .shoppingList:
-            return "Shopping List"
+            return "List"
         case .sharedShoppingList:
             return "Shared Lists"
         }
