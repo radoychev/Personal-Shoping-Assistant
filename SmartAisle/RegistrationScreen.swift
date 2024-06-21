@@ -100,7 +100,7 @@ struct RegistrationScreen: View {
                     errorMessage = nil
                     // Optional: Navigate to a different screen after a delay
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        navigate = .emailScreen
+                        navigate = .login
                     }
                 case .failure(let error):
                     errorMessage = error.localizedDescription

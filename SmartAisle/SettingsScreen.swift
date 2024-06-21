@@ -1,15 +1,12 @@
-//
-//  SettingsScreen.swift
-//  SmartAisle
-//
-//  Created by Abu Hasib on 09/06/2024.
-//
-
 import SwiftUI
+import FirebaseAuth
 
 struct SettingsScreen: View {
     @Binding var navigate: Screen
-    
+    @State private var showAdminPasswordPrompt = false
+    @State private var adminPassword: String = ""
+    @State private var showAdminError: Bool = false
+
     var body: some View {
         VStack {
             HStack {
@@ -47,7 +44,7 @@ struct SettingsScreen: View {
                 }
                 
                 Button(action: {
-                    navigate = .adminPanel
+                    showAdminPasswordPrompt.toggle()
                 }) {
                     Text("Admin Panel")
                         .font(.headline)
@@ -81,6 +78,18 @@ struct SettingsScreen: View {
                         .background(Color.white)
                         .cornerRadius(30)
                 }
+                
+                Button(action: {
+                    logout()
+                }) {
+                    Text("Logout")
+                        .font(.headline)
+                        .foregroundColor(.red)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white)
+                        .cornerRadius(30)
+                }
             }
             .padding(.top, 100)
             .padding(.horizontal, 20)
@@ -95,6 +104,71 @@ struct SettingsScreen: View {
         .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.27, green: 0.5, blue: 0.64)]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)
         .navigationBarHidden(true)
+        .sheet(isPresented: $showAdminPasswordPrompt) {
+            AdminPasswordPrompt(adminPassword: $adminPassword, showAdminPasswordPrompt: $showAdminPasswordPrompt, authenticateAdminPassword: authenticateAdminPassword)
+        }
+        .alert(isPresented: $showAdminError) {
+            Alert(title: Text("Error"), message: Text("Incorrect admin password."), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    private func logout() {
+        do {
+            try Auth.auth().signOut()
+            navigate = .login
+        } catch let error {
+            print("Error signing out: \(error.localizedDescription)")
+        }
+    }
+    
+    private func authenticateAdminPassword() {
+        let correctAdminPassword = "admin123" // Replace with your actual admin password
+        if adminPassword == correctAdminPassword {
+            navigate = .adminPanel
+        } else {
+            showAdminError = true
+        }
+        adminPassword = ""
+    }
+}
+
+struct AdminPasswordPrompt: View {
+    @Binding var adminPassword: String
+    @Binding var showAdminPasswordPrompt: Bool
+    var authenticateAdminPassword: () -> Void
+
+    var body: some View {
+        VStack {
+            Text("Enter Admin Password")
+                .font(.headline)
+                .padding()
+
+            SecureField("Password", text: $adminPassword)
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(10)
+                .padding()
+
+            HStack {
+                Button("Cancel") {
+                    showAdminPasswordPrompt = false
+                }
+                .padding()
+                
+                Spacer()
+                
+                Button("Submit") {
+                    showAdminPasswordPrompt = false
+                    authenticateAdminPassword()
+                }
+                .padding()
+            }
+            .padding()
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 10)
     }
 }
 
