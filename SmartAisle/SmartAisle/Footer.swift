@@ -12,7 +12,7 @@ struct Footer: View {
                     case .home:
                         HomeView()
                     case .list:
-                        ListView()
+                        ShoppingListView()
                     case .catalogue:
                         CatalogueView()
                     case .scanner:
