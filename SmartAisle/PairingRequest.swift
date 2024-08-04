@@ -15,3 +15,4 @@ struct PairingRequest: Identifiable, Codable {
         self.fromUserEmail = fromUserEmail
     }
 }
+

@@ -17,7 +17,7 @@ enum Screen: Hashable {
     case shoppingList
     case sharedShoppingList
     case homeScreen(String)  // New case with associated value
-    case homeViewModel    
+    case homeViewModel
     case WeeklyDealsManager// Added new case
 
     var iconName: String {
@@ -90,3 +90,4 @@ enum Screen: Hashable {
         }
     }
 }
+

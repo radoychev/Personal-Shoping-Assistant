@@ -1,15 +1,20 @@
-    //
-    //  Index.swift
-    //  SmartAisle
-    //
-    //  Created by Nathan Pete on 12/06/2024.
-    //
+//
+//  Index.swift
+//  SmartAisle
+//
+//  Created by Nathan Pete on 12/06/2024.
+//
 
 import SwiftUI
 import Swift
 import SwiftData
 
-struct HomeScreen: View{
+let backgroundGradient = LinearGradient(
+    colors: [.bg, .fg],
+    startPoint: .bottomTrailing, endPoint: .top)
+
+
+struct Index: View{
     var body: some View {
         ZStack {
             backgroundGradient
@@ -22,3 +27,5 @@ struct HomeScreen: View{
         .ignoresSafeArea()
     }
 }
+
+    

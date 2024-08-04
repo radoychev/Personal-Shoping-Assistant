@@ -1,76 +1,122 @@
 import SwiftUI
+import SwiftData
 
 struct Footer: View {
-    @Binding var navigate: Screen
-    @State var currentScreen: Screen = .home
-    @Namespace var animation
+    
+    @State var currentTab: Tab = .Home
+    
+    // Dummy data for required parameters in other screens
+    @State private var navigate: Screen = .home
+    @State private var selectedProduct: Product? = nil
+    @State private var searchText: String = ""
+    @State private var searchResults: [Product] = []
+    
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
     
     var body: some View {
-        HStack(spacing: 0) {
-            ForEach([Screen.home, Screen.shoppingList, Screen.emailScreen, Screen.search, Screen.settings], id: \.self) { screen in
-                TabButton(screen: screen)
-            }
-        }
-        .padding(.vertical, 10)
-        .padding(.bottom, getSafeArea().bottom == 0 ? 5 : (getSafeArea().bottom - 10))
-        .background(Color.blue) // Use any color you prefer
-        .frame(maxWidth: .infinity)
-        .edgesIgnoringSafeArea(.bottom)
-    }
-    
-    func TabButton(screen: Screen) -> some View {
-        Button(action: {
-            withAnimation(.spring()) {
-                currentScreen = screen
-                navigate = screen
-            }
-        }, label: {
-            VStack(spacing: 5) {
-                Image(systemName: currentScreen == screen ? selectedIconName(for: screen) : iconName(for: screen))
-                    .font(.system(size: 22, weight: .regular))
-                    .foregroundColor(.white)
+        NavigationView {
+            TabView(selection: $currentTab) {
                 
-                Text(screen.tabName)
-                    .font(.footnote)
-                    .foregroundColor(.white)
+                
+                
+                Catalogue(navigate: $navigate, selectedProduct: $selectedProduct, searchText: $searchText, searchResults: $searchResults)
+                    .tabItem {
+                        Label("Catalogue", systemImage: "book")
+                    }
+                    .tag(Tab.Catalogue)
+                    .environmentObject(ShoppingListManager())
+                
+              
+                
+                
             }
-            .frame(maxWidth: .infinity)
-        })
-    }
-    
-    func iconName(for screen: Screen) -> String {
-        switch screen {
-        case .emailScreen:
-            return "arkit"
-        default:
-            return screen.iconName
+            .overlay(
+                HStack(spacing: 0) {
+                    ForEach(Tab.allCases, id: \.rawValue) { tab in
+                        TabButton(tab: tab)
+                    }
+                    .padding(.vertical)
+                    .padding(.bottom, getSafeArea().bottom == 0 ? 5 : (getSafeArea().bottom))
+                    .background(Color("navBarBg"))
+                },
+                alignment: .bottom
+            )
+            .ignoresSafeArea(.all, edges: .bottom)
         }
     }
     
-    func selectedIconName(for screen: Screen) -> String {
-        switch screen {
-        case .emailScreen:
-            return "arkit"
-        case .search:
-            return "magnifyingglass" // No fill version available
-        default:
-            return screen.iconName + ".fill"
+    func TabButton(tab: Tab) -> some View {
+        GeometryReader { proxy in
+            
+            Button(action: {
+                withAnimation(.spring()) {
+                    currentTab = tab
+                }
+            }, label: {
+                VStack(spacing: 0) {
+                    Image(systemName: currentTab == tab ? tab.rawValue + ".fill" : tab.rawValue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25, height: 25)
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            ZStack {
+                                Text(tab.tabName)
+                                    .foregroundColor(.accentColor)
+                                    .font(.footnote)
+                                    .padding(.top, 50)
+                                    .fontDesign(.rounded)
+                            }
+                        )
+                }
+            })
+        }
+        .frame(height: 30)
+    }
+}
+
+#Preview {
+    Footer()
+        .environmentObject(ShoppingListManager())
+}
+
+// Navbar
+
+enum Tab: String, CaseIterable {
+    case Home = "house"
+    case List = "list.bullet.rectangle"
+    case Catalogue = "book"
+    case ARScanner = "opticid"
+    case Settings = "gearshape"
+    
+    var tabName: String {
+        switch self {
+        case .Home:
+            return "Index"
+        case .List:
+            return "List"
+        case .Catalogue:
+            return "Catalogue"
+        case .ARScanner:
+            return "Scanner"
+        case .Settings:
+            return "Pair List"
         }
     }
-    
+}
+
+extension View {
     func getSafeArea() -> UIEdgeInsets {
         guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             return .zero
         }
+        
         guard let safeArea = screen.windows.first?.safeAreaInsets else {
             return .zero
         }
+        
         return safeArea
-    }
-}
-
-struct Footer_Previews: PreviewProvider {
-    static var previews: some View {
-        Footer(navigate: .constant(.home))
     }
 }

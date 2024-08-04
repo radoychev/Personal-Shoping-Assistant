@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SearchScreen: View {
+struct Catalogue: View {
     @Binding var navigate: Screen
     @Binding var selectedProduct: Product?
     @Binding var searchText: String
@@ -101,11 +101,6 @@ struct SearchScreen: View {
             }
             
             Spacer()
-            
-            Footer(navigate: $navigate)
-                .frame(maxWidth: .infinity)
-                .background(Color(red: 0.12, green: 0.51, blue: 0.68))
-                .edgesIgnoringSafeArea(.bottom)
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.12, green: 0.51, blue: 0.68)]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)
@@ -135,10 +130,9 @@ struct SearchScreen: View {
    }
     
     
-    struct SearchScreen_Previews: PreviewProvider {
-        static var previews: some View {
-            SearchScreen(navigate: .constant(.search), selectedProduct: .constant(nil), searchText: .constant(""), searchResults: .constant([]))
-                .environmentObject(ShoppingListManager())
-        }
+struct Catalogue_Previews: PreviewProvider {
+    static var previews: some View {
+        Catalogue(navigate: .constant(.search), selectedProduct: .constant(nil), searchText: .constant(""), searchResults: .constant([]))
+            .environmentObject(ShoppingListManager())
     }
-
+}

@@ -32,7 +32,7 @@ class ShoppingListManager: ObservableObject {
         shoppingList = []
         pairedShoppingList = []
         mergedShoppingList = []
-        pairingRequests = []
+       // pairingRequests = []
         pairedUserId = nil
         pairedUserEmail = nil
     }
@@ -352,3 +352,4 @@ class ShoppingListManager: ObservableObject {
         }
     }
 }
+
