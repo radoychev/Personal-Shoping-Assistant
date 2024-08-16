@@ -1,88 +1,49 @@
 import SwiftUI
-import SwiftData
 
 struct Footer: View {
-    
-    @State var currentTab: Tab = .Home
-    
-    // Dummy data for required parameters in other screens
-    @State private var navigate: Screen = .home
-    @State private var selectedProduct: Product? = nil
-    @State private var searchText: String = ""
-    @State private var searchResults: [Product] = []
-    
-    init() {
-        UITabBar.appearance().isHidden = true
-    }
-    
+    @Binding var currentTab: Screen
+
     var body: some View {
-        NavigationView {
-            TabView(selection: $currentTab) {
-                
-                
-                
-                Catalogue(navigate: $navigate, selectedProduct: $selectedProduct, searchText: $searchText, searchResults: $searchResults)
-                    .tabItem {
-                        Label("Catalogue", systemImage: "book")
-                    }
-                    .tag(Tab.Catalogue)
-                    .environmentObject(ShoppingListManager())
-                
-              
-                
-                
+        HStack(spacing: 0) {
+            ForEach(Tab.allCases, id: \.rawValue) { tab in
+                TabButton(tab: tab)
             }
-            .overlay(
-                HStack(spacing: 0) {
-                    ForEach(Tab.allCases, id: \.rawValue) { tab in
-                        TabButton(tab: tab)
-                    }
-                    .padding(.vertical)
-                    .padding(.bottom, getSafeArea().bottom == 0 ? 5 : (getSafeArea().bottom))
-                    .background(Color("navBarBg"))
-                },
-                alignment: .bottom
-            )
-            .ignoresSafeArea(.all, edges: .bottom)
         }
+        .frame(maxWidth: .infinity, maxHeight: 80)
+        .background(Color("navBarBg"))
+        .padding(.bottom, getSafeArea().bottom == 0 ? 5 : getSafeArea().bottom)
+        .ignoresSafeArea(.all, edges: .bottom)
     }
-    
+
     func TabButton(tab: Tab) -> some View {
-        GeometryReader { proxy in
-            
-            Button(action: {
-                withAnimation(.spring()) {
-                    currentTab = tab
-                }
-            }, label: {
-                VStack(spacing: 0) {
-                    Image(systemName: currentTab == tab ? tab.rawValue + ".fill" : tab.rawValue)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 25, height: 25)
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            ZStack {
-                                Text(tab.tabName)
-                                    .foregroundColor(.accentColor)
-                                    .font(.footnote)
-                                    .padding(.top, 50)
-                                    .fontDesign(.rounded)
-                            }
-                        )
-                }
-            })
+        Button(action: {
+            withAnimation(.spring()) {
+                currentTab = tab.screen
+            }
+        }) {
+            VStack(spacing: 0) {
+                Image(systemName: currentTab.iconName(for: tab))
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25)
+                    .frame(maxWidth: .infinity)
+                
+                Text(tab.tabName)
+                    .foregroundColor(.accentColor)
+                    .font(.footnote)
+                    .padding(.top, 1)
+            }
         }
-        .frame(height: 30)
     }
 }
 
-#Preview {
-    Footer()
-        .environmentObject(ShoppingListManager())
+struct Footer_Previews: PreviewProvider {
+    static var previews: some View {
+        Footer(currentTab: .constant(.home))
+    }
 }
 
-// Navbar
+// Navbar Enum
 
 enum Tab: String, CaseIterable {
     case Home = "house"
@@ -90,7 +51,7 @@ enum Tab: String, CaseIterable {
     case Catalogue = "book"
     case ARScanner = "opticid"
     case Settings = "gearshape"
-    
+
     var tabName: String {
         switch self {
         case .Home:
@@ -102,7 +63,41 @@ enum Tab: String, CaseIterable {
         case .ARScanner:
             return "Scanner"
         case .Settings:
-            return "Pair List"
+            return "Settings"
+        }
+    }
+    
+    var screen: Screen {
+        switch self {
+        case .Home:
+            return .home
+        case .List:
+            return .shoppingList
+        case .Catalogue:
+            return .search
+        case .ARScanner:
+            return .arViewScreen
+        case .Settings:
+            return .settings
+        }
+    }
+}
+
+extension Screen {
+    func iconName(for tab: Tab) -> String {
+        switch self {
+        case .home where tab == .Home:
+            return "house.fill"
+        case .shoppingList where tab == .List:
+            return "list.bullet.rectangle.fill"
+        case .search where tab == .Catalogue:
+            return "book.fill"
+        case .pairShoppingList where tab == .ARScanner:
+            return "opticid.fill"
+        case .settings where tab == .Settings:
+            return "gearshape.fill"
+        default:
+            return tab.rawValue
         }
     }
 }
