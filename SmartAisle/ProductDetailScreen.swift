@@ -10,9 +10,9 @@ struct ProductDetailScreen: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 if let productDetails = viewModel.productDetails {
-                    ProductImageView(imageUrl: productDetails.imageInfo.primaryView.first?.url)
+                    ProductImageView(imageUrl: productDetails.imageInfo?.primaryView.first?.url)
                     ProductInfoView(productDetails: productDetails)
-                    AddToCartButton()
+                    AddToCartButton(product: productDetails) // Pass productDetails to AddToCartButton
                     ProductDescriptionView(description: productDetails.description)
                     ProductIngredientsView(ingredients: productDetails.ingredients)
                 } else if viewModel.isLoading {
@@ -28,7 +28,7 @@ struct ProductDetailScreen: View {
             }
             .navigationBarTitle(Text(product.title), displayMode: .inline)
             .navigationBarItems(leading: Button(action: {
-                navigate = .search
+                navigate = .search // Consider using a general back action if possible
             }) {
                 Image(systemName: "arrow.left")
                     .foregroundColor(.blue)
@@ -36,6 +36,33 @@ struct ProductDetailScreen: View {
         }
         .onAppear {
             viewModel.fetchProductDetails(productID: product.id)
+        }
+    }
+}
+
+struct AddToCartButton: View {
+    let product: Product
+    @EnvironmentObject var shoppingListManager: ShoppingListManager
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+
+    var body: some View {
+        Button(action: {
+            shoppingListManager.addToShoppingList(product)
+            alertMessage = "\(product.title) has been added to your shopping list!"
+            showAlert = true
+        }) {
+            Text("Add to Shopping List")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.green)
+                .cornerRadius(10)
+                .padding(.horizontal)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Item Added"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
     }
 }
@@ -85,32 +112,19 @@ struct ProductInfoView: View {
                 .fontWeight(.bold)
                 .padding(.horizontal)
 
-            Text("€\(String(format: "%.2f", productDetails.prices.price.amount / 100))")
-                .font(.title2)
-                .foregroundColor(.secondary)
-                .padding(.horizontal)
+            if let amount = productDetails.prices?.price.amount {
+                Text("€\(String(format: "%.2f", amount / 100))")
+                    .font(.title2)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal)
+            }
 
-            Text(productDetails.quantity)
-                .font(.headline)
-                .foregroundColor(.secondary)
-                .padding(.horizontal)
-        }
-    }
-}
-
-struct AddToCartButton: View {
-    var body: some View {
-        Button(action: {
-            // Add to shopping List
-        }) {
-            Text("Add to Shopping List")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.green)
-                .cornerRadius(10)
-                .padding(.horizontal)
+            if let quantity = productDetails.quantity {
+                Text(quantity)
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal)
+            }
         }
     }
 }
@@ -150,6 +164,10 @@ struct ProductIngredientsView: View {
 
             if let ingredients = ingredients {
                 Text(ingredients)
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
+            } else {
+                Text("No ingredients available.")
                     .padding(.horizontal)
                     .padding(.bottom, 8)
             }
@@ -196,6 +214,7 @@ struct ProductDetailScreen_Previews: PreviewProvider {
 
         NavigationView {
             ProductDetailScreen(navigate: .constant(.search), product: sampleProduct)
+                .environmentObject(ShoppingListManager()) // Ensure to add the environment object for the preview
         }
     }
 }

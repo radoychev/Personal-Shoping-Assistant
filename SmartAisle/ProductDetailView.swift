@@ -4,6 +4,9 @@ struct ProductDetailView: View {
     let product: Product
 
     @State private var productDetails: Product? = nil
+    @EnvironmentObject var shoppingListManager: ShoppingListManager
+    @State private var showAlert = false
+    @State private var alertMessage = ""
 
     var body: some View {
         VStack {
@@ -11,7 +14,7 @@ struct ProductDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         // Product Image
-                        if let imageUrl = productDetails.imageInfo.primaryView.first?.url, let url = URL(string: imageUrl) {
+                        if let imageUrl = productDetails.imageInfo?.primaryView.first?.url, let url = URL(string: imageUrl) {
                             AsyncImage(url: url) { phase in
                                 switch phase {
                                 case .empty:
@@ -51,18 +54,35 @@ struct ProductDetailView: View {
                             .padding([.top, .horizontal])
 
                         // Product Quantity
-                        Text(productDetails.quantity)
-                            .font(.headline)
-                            .padding(.horizontal)
+                        if let quantity = productDetails.quantity {
+                            Text(quantity)
+                                .font(.headline)
+                                .padding(.horizontal)
+                        }
 
                         // Product Price
-                        Text("€\(String(format: "%.2f", productDetails.prices.price.amount / 100))")
-                            .font(.title2)
-                            .foregroundColor(.gray)
-                            .padding([.horizontal, .bottom])
+                        if let amount = productDetails.prices?.price.amount {
+                            Text("€\(String(format: "%.2f", amount / 100))")
+                                .font(.title2)
+                                .foregroundColor(.gray)
+                                .padding([.horizontal, .bottom])
+                        }
 
-                    
-                        
+                        // Add to Shopping List Button
+                        Button(action: {
+                            shoppingListManager.addToShoppingList(productDetails)
+                            alertMessage = "\(productDetails.title) has been added to your shopping list!"
+                            showAlert = true
+                        }) {
+                            Text("Add to Shopping List")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.green)
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                        }
 
                         // Product Description
                         Text("Product Description")
@@ -91,6 +111,9 @@ struct ProductDetailView: View {
             }
         }
         .navigationBarTitle(Text(product.title), displayMode: .inline)
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Item Added"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
     }
 
     func fetchProductDetails() {
@@ -119,5 +142,6 @@ struct ProductDetailView_Previews: PreviewProvider {
             ingredients: "Sample ingredients"
         )
         ProductDetailView(product: sampleProduct)
+            .environmentObject(ShoppingListManager()) // Ensure to add the environment object for the preview
     }
 }

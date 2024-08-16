@@ -1,4 +1,5 @@
 import SwiftUI
+import Firebase
 
 struct HomeScreen: View {
     @Binding var navigate: Screen
@@ -14,21 +15,19 @@ struct HomeScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Button(action: {
-                    navigate = .home
-                }) {
-                    Image(systemName: "arrow.left")
-                        .font(.title)
-                        .foregroundColor(.black)
-                }
                 Spacer()
                 Text("Home")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.black)
                 Spacer()
-                Spacer()
-                    .frame(width: 40)
+                Button(action: {
+                    logout()
+                }) {
+                    Image(systemName: "arrow.right")
+                        .font(.title)
+                        .foregroundColor(.black)
+                }
             }
             .padding(.top, 50)
             .padding(.horizontal)
@@ -107,17 +106,22 @@ struct HomeScreen: View {
                 }
                 .padding()
             }
-
-            Footer(navigate: $navigate)
-                .frame(maxWidth: .infinity, maxHeight: 80)
-                .background(Color(red: 0.12, green: 0.51, blue: 0.68))
-                .edgesIgnoringSafeArea(.bottom)
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.27, green: 0.5, blue: 0.64)]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)
         .navigationBarHidden(true)
         .onAppear {
             weeklyDealsManager.fetchWeeklyDeals()
+        }
+    }
+
+    func logout() {
+        do {
+            try Auth.auth().signOut()
+            UserDefaults.standard.set(false, forKey: "isLoggedIn")
+            navigate = .login
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
         }
     }
 }

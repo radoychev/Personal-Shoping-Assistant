@@ -9,12 +9,30 @@ class ShoppingListManager: ObservableObject {
     @Published var pairingRequests: [PairingRequest] = []
     @Published var pairedUserId: String?
     @Published var pairedUserEmail: String?
-
+    
     private var db = Firestore.firestore()
     private var userId: String? {
         return Auth.auth().currentUser?.uid
     }
+    
+    enum ShoppingListError: Error {
+        case encodingError
+        case decodingError
+        case firestoreError(String)
+        
+        var localizedDescription: String {
+            switch self {
+            case .encodingError:
+                return "Failed to encode the shopping list."
+            case .decodingError:
+                return "Failed to decode the shopping list."
+            case .firestoreError(let message):
+                return "Firestore error: \(message)"
+            }
+        }
+    }
 
+    
     init() {
         Auth.auth().addStateDidChangeListener { [weak self] auth, user in
             if let user = user {
@@ -36,14 +54,14 @@ class ShoppingListManager: ObservableObject {
         pairedUserId = nil
         pairedUserEmail = nil
     }
-
+    
     func addToShoppingList(_ product: Product) {
         guard !shoppingList.contains(where: { $0.id == product.id }) else { return }
         shoppingList.append(product)
         saveShoppingList()
         mergeShoppingLists()
     }
-
+    
     func removeFromShoppingList(_ product: Product) {
         if let index = shoppingList.firstIndex(where: { $0.id == product.id }) {
             shoppingList.remove(at: index)
@@ -53,13 +71,24 @@ class ShoppingListManager: ObservableObject {
         saveShoppingList()
         mergeShoppingLists()
     }
-
-    private func saveShoppingList() {
+    
+    func toggleDone(for product: Product) {
+        if let index = shoppingList.firstIndex(where: { $0.id == product.id }) {
+            shoppingList[index].isDone.toggle()
+            saveShoppingList()
+        } else if let index = pairedShoppingList.firstIndex(where: { $0.id == product.id }) {
+            pairedShoppingList[index].isDone.toggle()
+            saveShoppingList()
+        }
+        mergeShoppingLists()
+    }
+    
+    func saveShoppingList() {
         guard let userId = userId else {
             print("No user is currently logged in.")
             return
         }
-
+        
         let userDocRef = db.collection("users").document(userId)
         do {
             let encodedList = try shoppingList.map { try JSONEncoder().encode($0) }
@@ -75,7 +104,7 @@ class ShoppingListManager: ObservableObject {
             print("Error encoding shopping list: \(error.localizedDescription)")
         }
     }
-
+    
     func loadShoppingList() {
         guard let userId = userId else {
             print("No user is currently logged in.")
@@ -83,7 +112,7 @@ class ShoppingListManager: ObservableObject {
         }
         
         let userDocRef = db.collection("users").document(userId)
-        userDocRef.getDocument { [weak self] document, error in
+        userDocRef.addSnapshotListener { [weak self] document, error in
             if let error = error {
                 print("Error loading shopping list: \(error.localizedDescription)")
                 return
@@ -105,15 +134,15 @@ class ShoppingListManager: ObservableObject {
             }
         }
     }
-
+    
     func loadPairedShoppingList() {
         guard let userId = userId, let pairedUserId = pairedUserId else {
             print("No user is currently logged in or paired user not found.")
             return
         }
-
+        
         let userDocRef = db.collection("users").document(pairedUserId)
-        userDocRef.getDocument { [weak self] document, error in
+        userDocRef.addSnapshotListener { [weak self] document, error in
             if let error = error {
                 print("Error loading paired shopping list: \(error.localizedDescription)")
                 return
@@ -135,11 +164,11 @@ class ShoppingListManager: ObservableObject {
             }
         }
     }
-
+    
     private func mergeShoppingLists() {
         mergedShoppingList = shoppingList + pairedShoppingList
     }
-
+    
     func pairWithUser(email: String, completion: @escaping (Result<Void, Error>) -> Void) {
         db.collection("users").whereField("email", isEqualTo: email).getDocuments { [weak self] querySnapshot, error in
             if let error = error {
@@ -154,16 +183,16 @@ class ShoppingListManager: ObservableObject {
             self?.sendPairingRequest(toUserId: pairedWithUID, completion: completion)
         }
     }
-
+    
     private func sendPairingRequest(toUserId: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let fromUserId = userId else {
             completion(.failure(NSError(domain: "No user is currently logged in", code: -1, userInfo: nil)))
             return
         }
-
+        
         let requestId = UUID().uuidString
         let request = PairingRequest(id: requestId, fromUserId: fromUserId, toUserId: toUserId, status: "pending", fromUserEmail: nil)
-
+        
         do {
             let requestData = try Firestore.Encoder().encode(request)
             db.collection("pairingRequests").document(requestId).setData(requestData) { error in
@@ -177,23 +206,23 @@ class ShoppingListManager: ObservableObject {
             completion(.failure(error))
         }
     }
-
+    
     func loadPairingRequests() {
         guard let userId = userId else {
             print("No user is currently logged in.")
             return
         }
-
+        
         db.collection("pairingRequests").whereField("toUserId", isEqualTo: userId).whereField("status", isEqualTo: "pending").addSnapshotListener { [weak self] snapshot, error in
             if let error = error {
                 print("Error loading pairing requests: \(error.localizedDescription)")
                 return
             }
-
+            
             let requests = snapshot?.documents.compactMap { document in
                 try? document.data(as: PairingRequest.self)
             } ?? []
-
+            
             let userIds = requests.map { $0.fromUserId }
             self?.fetchEmails(for: userIds) { emails in
                 self?.pairingRequests = requests.map { request in
@@ -204,13 +233,13 @@ class ShoppingListManager: ObservableObject {
             }
         }
     }
-
+    
     func loadPairedUser() {
         guard let userId = userId else {
             print("No user is currently logged in.")
             return
         }
-
+        
         let userDocRef = db.collection("users").document(userId)
         userDocRef.getDocument { [weak self] document, error in
             if let error = error {
@@ -226,7 +255,7 @@ class ShoppingListManager: ObservableObject {
             self?.fetchUserEmail(for: pairedWithUID)
         }
     }
-
+    
     private func fetchUserEmail(for uid: String) {
         let userDocRef = db.collection("users").document(uid)
         userDocRef.getDocument { [weak self] document, error in
@@ -242,7 +271,7 @@ class ShoppingListManager: ObservableObject {
             self?.pairedUserEmail = email
         }
     }
-
+    
     func fetchEmails(for userIds: [String], completion: @escaping ([String: String]) -> Void) {
         var emails = [String: String]()
         let group = DispatchGroup()
@@ -264,90 +293,131 @@ class ShoppingListManager: ObservableObject {
             completion(emails)
         }
     }
-
+    
     func acceptPairingRequest(_ request: PairingRequest, completion: @escaping (Result<Void, Error>) -> Void) {
-        db.collection("pairingRequests").document(request.id).updateData(["status": "accepted"]) { [weak self] error in
+        let batch = db.batch()
+        
+        // Update the pairing request status to "accepted"
+        let requestRef = db.collection("pairingRequests").document(request.id)
+        batch.updateData(["status": "accepted"], forDocument: requestRef)
+        
+        // Update both users' documents to reflect the pairing
+        let fromUserRef = db.collection("users").document(request.fromUserId)
+        let toUserRef = db.collection("users").document(request.toUserId)
+        
+        batch.setData(["pairedWith": request.toUserId], forDocument: fromUserRef, merge: true)
+        batch.setData(["pairedWith": request.fromUserId], forDocument: toUserRef, merge: true)
+        
+        batch.commit { [weak self] error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-
-            self?.db.collection("users").document(request.fromUserId).setData(["pairedWith": request.toUserId], merge: true) { error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-
-                self?.db.collection("users").document(request.toUserId).setData(["pairedWith": request.fromUserId], merge: true) { error in
-                    if let error = error {
-                        completion(.failure(error))
-                        return
-                    }
-                    
-                    self?.mergeShoppingLists(fromUserId: request.fromUserId, toUserId: request.toUserId)
+            
+            print("Pairing updated for both users.") // Debugging output
+            
+            // After committing the batch, merge the shopping lists
+            self?.mergeShoppingLists(fromUserId: request.fromUserId, toUserId: request.toUserId) { mergeError in
+                if let mergeError = mergeError {
+                    completion(.failure(mergeError))
+                } else {
+                    print("Shopping lists merged successfully.") // Debugging output
                     completion(.success(()))
                 }
             }
         }
     }
-
-    private func mergeShoppingLists(fromUserId: String, toUserId: String) {
-        let userDocRef = db.collection("users").document(fromUserId)
-        userDocRef.getDocument { [weak self] document, error in
+    
+    
+    private func mergeShoppingLists(fromUserId: String, toUserId: String, completion: @escaping (Error?) -> Void) {
+        let fromUserDocRef = db.collection("users").document(fromUserId)
+        let toUserDocRef = db.collection("users").document(toUserId)
+        
+        let group = DispatchGroup()
+        
+        var fromProducts: [Product] = []
+        var toProducts: [Product] = []
+        
+        group.enter()
+        fromUserDocRef.getDocument { document, error in
             if let error = error {
-                print("Error loading shopping list for user \(fromUserId): \(error.localizedDescription)")
+                completion(ShoppingListError.firestoreError(error.localizedDescription))
+                group.leave()
                 return
             }
-            guard let document = document, document.exists, let data = document.data(), let fromStringList = data["shoppingList"] as? [String] else {
-                print("No shopping list found for user \(fromUserId)")
+            if let document = document, document.exists, let data = document.data(), let stringList = data["shoppingList"] as? [String] {
+                do {
+                    fromProducts = try stringList.map {
+                        guard let decodedData = Data(base64Encoded: $0) else {
+                            throw ShoppingListError.decodingError
+                        }
+                        return try JSONDecoder().decode(Product.self, from: decodedData)
+                    }
+                } catch {
+                    completion(ShoppingListError.decodingError)
+                }
+            }
+            group.leave()
+        }
+        
+        group.enter()
+        toUserDocRef.getDocument { document, error in
+            if let error = error {
+                completion(ShoppingListError.firestoreError(error.localizedDescription))
+                group.leave()
                 return
             }
+            if let document = document, document.exists, let data = document.data(), let stringList = data["shoppingList"] as? [String] {
+                do {
+                    toProducts = try stringList.map {
+                        guard let decodedData = Data(base64Encoded: $0) else {
+                            throw ShoppingListError.decodingError
+                        }
+                        return try JSONDecoder().decode(Product.self, from: decodedData)
+                    }
+                } catch {
+                    completion(ShoppingListError.decodingError)
+                }
+            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            // Merge products
+            let mergedShoppingList = fromProducts + toProducts
             
-            let toUserDocRef = self?.db.collection("users").document(toUserId)
-            toUserDocRef?.getDocument { document, error in
-                if let error = error {
-                    print("Error loading shopping list for user \(toUserId): \(error.localizedDescription)")
-                    return
-                }
-                guard let document = document, document.exists, let data = document.data(), let toStringList = data["shoppingList"] as? [String] else {
-                    print("No shopping list found for user \(toUserId)")
-                    return
+            do {
+                let encodedList = try mergedShoppingList.map { try JSONEncoder().encode($0) }
+                let stringList = encodedList.map { $0.base64EncodedString() }
+                
+                // Save the merged list to both users
+                let saveGroup = DispatchGroup()
+                saveGroup.enter()
+                self.db.collection("users").document(fromUserId).setData(["shoppingList": stringList], merge: true) { error in
+                    if let error = error {
+                        completion(ShoppingListError.firestoreError(error.localizedDescription))
+                        saveGroup.leave()
+                        return
+                    }
+                    saveGroup.leave()
                 }
                 
-                var mergedShoppingList: [Product] = []
-                do {
-                    let fromProducts = try fromStringList.map {
-                        guard let decodedData = Data(base64Encoded: $0) else {
-                            throw NSError(domain: "Invalid base64 string", code: -1, userInfo: nil)
-                        }
-                        return try JSONDecoder().decode(Product.self, from: decodedData)
+                saveGroup.enter()
+                self.db.collection("users").document(toUserId).setData(["shoppingList": stringList], merge: true) { error in
+                    if let error = error {
+                        completion(ShoppingListError.firestoreError(error.localizedDescription))
+                        saveGroup.leave()
+                        return
                     }
-                    let toProducts = try toStringList.map {
-                        guard let decodedData = Data(base64Encoded: $0) else {
-                            throw NSError(domain: "Invalid base64 string", code: -1, userInfo: nil)
-                        }
-                        return try JSONDecoder().decode(Product.self, from: decodedData)
-                    }
-                    
-                    mergedShoppingList = fromProducts + toProducts
-                } catch {
-                    print("Error merging shopping lists: \(error.localizedDescription)")
-                    return
+                    saveGroup.leave()
                 }
                 
-                do {
-                    let encodedList = try mergedShoppingList.map { try JSONEncoder().encode($0) }
-                    let stringList = encodedList.map { $0.base64EncodedString() }
-                    self?.db.collection("sharedLists").document("\(fromUserId)_\(toUserId)").setData(["shoppingList": stringList], merge: true) { error in
-                        if let error = error {
-                            print("Error saving merged shopping list: \(error.localizedDescription)")
-                        } else {
-                            print("Merged shopping list successfully saved.")
-                        }
-                    }
-                } catch {
-                    print("Error encoding merged shopping list: \(error.localizedDescription)")
+                saveGroup.notify(queue: .main) {
+                    completion(nil)
                 }
+                
+            } catch {
+                completion(ShoppingListError.encodingError)
             }
         }
     }

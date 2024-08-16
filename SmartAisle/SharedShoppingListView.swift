@@ -104,17 +104,18 @@ struct SharedShoppingListView: View {
                 // Refresh the pairing requests and paired user ID
                 shoppingListManager.loadPairingRequests()
                 shoppingListManager.loadPairedUser()
-                shoppingListManager.loadPairedShoppingList() // Add this line to reload the paired shopping list
+                shoppingListManager.loadPairedShoppingList() // Reload the paired shopping list
+                shoppingListManager.loadShoppingList() // Reload the current user's shopping list as well
             case .failure(let error):
                 print("Error accepting request: \(error.localizedDescription)")
             }
         }
     }
-}
-
-struct SharedShoppingListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SharedShoppingListView(navigate: .constant(.sharedShoppingList))
-            .environmentObject(ShoppingListManager())
+    
+    struct SharedShoppingListView_Previews: PreviewProvider {
+        static var previews: some View {
+            SharedShoppingListView(navigate: .constant(.sharedShoppingList))
+                .environmentObject(ShoppingListManager())
+        }
     }
 }

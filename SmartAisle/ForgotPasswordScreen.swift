@@ -92,13 +92,6 @@ struct ForgotPasswordScreen: View {
             .padding()
             .frame(maxWidth: .infinity)
             .frame(maxHeight: .infinity)
-
-            Spacer()
-
-            Footer(navigate: $navigate)
-                .frame(maxWidth: .infinity, maxHeight: 80)
-                .background(Color(red: 0.12, green: 0.51, blue: 0.68))
-                .edgesIgnoringSafeArea(.bottom)
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.12, green: 0.51, blue: 0.68)]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)

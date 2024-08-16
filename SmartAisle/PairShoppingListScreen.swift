@@ -10,16 +10,30 @@ struct PairShoppingListScreen: View {
 
     var body: some View {
         VStack {
-            headerView
-            Spacer()
+            HStack {
+                Button(action: {
+                    navigate = .home
+                }) {
+                    Image(systemName: "arrow.left")
+                        .font(.title)
+                        .foregroundColor(.black)
+                }
+                Spacer()
+            }
+            .padding(.top, 50)
+            .padding(.horizontal)
+            
+            Text("Pair Shopping List")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(.black)
+                .padding(.top, 20)
+
             emailInputView
             confirmButton
             sharedListsButton
             cancelButton
-            Spacer()
-            Footer(navigate: $navigate)
-                .frame(maxWidth: .infinity)
-                .background(Color(red: 0.12, green: 0.51, blue: 0.68))
+            Spacer() // Ensure the spacer pushes the content up and the footer down
         }
         .padding(.horizontal, 20)
         .background(backgroundGradient)
@@ -27,14 +41,6 @@ struct PairShoppingListScreen: View {
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
-    }
-
-    private var headerView: some View {
-        Text("Pair Shopping List")
-            .font(.largeTitle)
-            .fontWeight(.bold)
-            .foregroundColor(.black)
-            .padding(.top, 50)
     }
 
     private var emailInputView: some View {
@@ -138,4 +144,3 @@ struct PairShoppingListScreen_Previews: PreviewProvider {
             .environmentObject(ShoppingListManager())
     }
 }
-

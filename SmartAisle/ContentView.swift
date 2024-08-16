@@ -23,7 +23,7 @@ struct ContentView: View {
                         ForEach(products) { product in
                             NavigationLink(destination: ProductDetailView(product: product)) {
                                 HStack {
-                                    if let imageUrl = product.imageInfo.primaryView.first?.url, let url = URL(string: imageUrl) {
+                                    if let imageUrl = product.imageInfo?.primaryView.first?.url, let url = URL(string: imageUrl) {
                                         AsyncImage(url: url) { phase in
                                             switch phase {
                                             case .empty:
@@ -56,9 +56,11 @@ struct ContentView: View {
                                         Text(product.title)
                                             .font(.headline)
 
-                                        Text("€\(String(format: "%.2f", product.prices.price.amount / 100))")
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
+                                        if let amount = product.prices?.price.amount {
+                                            Text("€\(String(format: "%.2f", amount / 100))")
+                                                .font(.subheadline)
+                                                .foregroundColor(.gray)
+                                        }
                                     }
                                     Spacer()
                                 }

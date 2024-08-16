@@ -78,13 +78,34 @@ struct AdminPanelScreen: View {
                 ForEach(weeklyDeals) { deal in
                     HStack {
                         if let url = URL(string: deal.productImageURL) {
-                            AsyncImage(url: url) { image in
-                                image.resizable()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(10)
-                            } placeholder: {
-                                ProgressView()
+                            AsyncImage(url: url) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                case .success(let image):
+                                    image.resizable()
+                                        .frame(width: 50, height: 50)
+                                        .cornerRadius(10)
+                                case .failure:
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 50, height: 50)
+                                        .cornerRadius(10)
+                                @unknown default:
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 50, height: 50)
+                                        .cornerRadius(10)
+                                }
                             }
+                        } else {
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50, height: 50)
+                                .cornerRadius(10)
                         }
                         VStack(alignment: .leading) {
                             Text(deal.productName)
@@ -151,8 +172,8 @@ struct AdminPanelScreen: View {
         let deal = WeeklyDeal(
             id: product.id,
             productName: product.title,
-            productPrice: product.prices.price.amount / 100.0, // assuming price is in cents
-            productImageURL: product.imageInfo.primaryView.first?.url ?? ""
+            productPrice: product.prices?.price.amount ?? 0 / 100.0, // assuming price is in cents
+            productImageURL: product.imageInfo?.primaryView.first?.url ?? ""
         )
         if !weeklyDeals.contains(where: { $0.id == deal.id }) {
             weeklyDeals.append(deal)

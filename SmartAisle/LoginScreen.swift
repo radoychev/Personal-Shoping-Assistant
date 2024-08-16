@@ -80,11 +80,13 @@ struct LoginScreen: View {
         AuthService.shared.login(email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let user):
-                    // Fetch the current user and get the display name
-                    if let currentUser = Auth.auth().currentUser {
-                        navigate = .homeScreen(currentUser.displayName ?? "User")
-                    }
+                case .success(let authResult):
+                    // Save login state
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    // Get display name from user
+                    let displayName = authResult.user.displayName ?? "User"
+                    // Navigate to home screen
+                    navigate = .homeScreen(displayName)
                 case .failure(let error):
                     errorMessage = error.localizedDescription
                 }

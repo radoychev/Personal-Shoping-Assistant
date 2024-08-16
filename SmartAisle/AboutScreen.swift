@@ -63,7 +63,7 @@ struct AboutScreen: View {
 
             Spacer()
 
-            Footer(navigate: $navigate)
+            Footer(currentTab: $navigate)
                 .frame(maxWidth: .infinity)
                 .background(Color(red: 0.12, green: 0.51, blue: 0.68))
                 .edgesIgnoringSafeArea(.bottom)

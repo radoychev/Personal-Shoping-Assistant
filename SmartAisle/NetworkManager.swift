@@ -59,7 +59,11 @@ class NetworkManager {
                     completion(.success(productResponse.products.data))
                 }
             } catch {
-                completion(.failure(NetworkError.decodingError(error)))
+                print("Decoding error: \(error.localizedDescription)")
+                // Handle empty or malformed response gracefully
+                DispatchQueue.main.async {
+                    completion(.success([]))
+                }
             }
         }.resume()
     }

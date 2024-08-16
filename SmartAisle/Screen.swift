@@ -1,25 +1,30 @@
 import SwiftUI
 
+/// Enumeration representing the different screens in the SmartAisleApp
 enum Screen: Hashable {
+    // Auth Screens
     case welcome
     case login
     case registration
+    case forgotPassword
+    
+    // Home Screens
     case home
+    case homeScreen(String)  // Home with associated value
+    
+    // Other Screens
     case about
     case adminPanel
     case changePassword
-    case emailScreen
     case pairShoppingList
     case search
     case settings
-    case forgotPassword
-    case productDetailScreen
+    case productDetailScreen(Product)  // Product Detail with associated Product
     case shoppingList
     case sharedShoppingList
-    case homeScreen(String)  // New case with associated value
-    case homeViewModel    
-    case WeeklyDealsManager// Added new case
+    case arViewScreen  // New ARView screen
 
+    /// Returns the corresponding icon name for each screen
     var iconName: String {
         switch self {
         case .welcome:
@@ -28,18 +33,16 @@ enum Screen: Hashable {
             return "person"
         case .registration:
             return "person.badge.plus"
-        case .home, .homeScreen, .homeViewModel:
+        case .home, .homeScreen:
             return "house"
         case .about:
             return "info.circle"
-        case .adminPanel, .WeeklyDealsManager:
+        case .adminPanel:
             return "person.3"
         case .changePassword:
             return "key"
         case .forgotPassword:
             return "key.1"
-        case .emailScreen:
-            return "envelope"
         case .pairShoppingList:
             return "list.bullet.rectangle"
         case .search:
@@ -52,9 +55,12 @@ enum Screen: Hashable {
             return "cart.fill"
         case .sharedShoppingList:
             return "person.2.fill"
+        case .arViewScreen:
+            return "arkit"  // Example icon for AR view, you can customize this
         }
     }
 
+    /// Returns the corresponding tab name for each screen
     var tabName: String {
         switch self {
         case .welcome:
@@ -63,7 +69,7 @@ enum Screen: Hashable {
             return "Login"
         case .registration:
             return "Register"
-        case .home, .homeScreen,.WeeklyDealsManager, .homeViewModel:
+        case .home, .homeScreen:
             return "Home"
         case .about:
             return "About"
@@ -73,8 +79,6 @@ enum Screen: Hashable {
             return "Admin Panel"
         case .changePassword:
             return "Change Password"
-        case .emailScreen:
-            return "Email"
         case .pairShoppingList:
             return "Pair List"
         case .search:
@@ -87,6 +91,8 @@ enum Screen: Hashable {
             return "List"
         case .sharedShoppingList:
             return "Shared Lists"
+        case .arViewScreen:
+            return "AR View"  // Tab name for the AR view screen
         }
     }
 }

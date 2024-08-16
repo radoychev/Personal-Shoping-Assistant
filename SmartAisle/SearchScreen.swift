@@ -5,9 +5,11 @@ struct SearchScreen: View {
     @Binding var selectedProduct: Product?
     @Binding var searchText: String
     @Binding var searchResults: [Product]
-    
+
     @EnvironmentObject var shoppingListManager: ShoppingListManager
-    
+    @State private var showAlert = false // Add this state variable
+    @State private var alertMessage = "" // State to hold the alert message
+
     var body: some View {
         VStack {
             HStack {
@@ -22,13 +24,13 @@ struct SearchScreen: View {
             }
             .padding(.top, 50)
             .padding(.horizontal)
-            
+
             Text("Search")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.black)
                 .padding(.bottom, 20)
-            
+
             TextField("Search...", text: $searchText, onCommit: {
                 searchProducts()
             })
@@ -37,7 +39,7 @@ struct SearchScreen: View {
             .cornerRadius(10)
             .padding(.horizontal)
             .padding(.bottom, 20)
-            
+
             if searchResults.isEmpty && !searchText.isEmpty {
                 Text("No products found.")
                     .font(.headline)
@@ -46,7 +48,7 @@ struct SearchScreen: View {
                 List {
                     ForEach(searchResults) { product in
                         HStack {
-                            if let imageUrl = product.imageInfo.primaryView.first?.url, let url = URL(string: imageUrl) {
+                            if let imageUrl = product.imageInfo?.primaryView.first?.url, let url = URL(string: imageUrl) {
                                 AsyncImage(url: url) { phase in
                                     switch phase {
                                     case .empty:
@@ -74,21 +76,25 @@ struct SearchScreen: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 50, height: 50)
                             }
-                            
+
                             VStack(alignment: .leading) {
                                 NavigationLink(destination: ProductDetailView(product: product)) {
                                     Text(product.title)
                                         .font(.headline)
                                 }
-                                
-                                Text("€\(String(format: "%.2f", product.prices.price.amount / 100))")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
+
+                                if let amount = product.prices?.price.amount {
+                                    Text("€\(String(format: "%.2f", amount / 100))")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
                             }
                             Spacer()
-                            
+
                             Button(action: {
                                 shoppingListManager.addToShoppingList(product)
+                                alertMessage = "\(product.title) has been added to your shopping list!"
+                                showAlert = true // Trigger the alert
                             }) {
                                 Image(systemName: "plus.circle.fill")
                                     .font(.title)
@@ -99,19 +105,17 @@ struct SearchScreen: View {
                     }
                 }
             }
-            
+
             Spacer()
-            
-            Footer(navigate: $navigate)
-                .frame(maxWidth: .infinity)
-                .background(Color(red: 0.12, green: 0.51, blue: 0.68))
-                .edgesIgnoringSafeArea(.bottom)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Item Added"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.12, green: 0.51, blue: 0.68)]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)
         .navigationBarHidden(true)
     }
-    
+
     func searchProducts() {
         NetworkManager.shared.searchProducts(query: searchText) { result in
             switch result {
@@ -125,20 +129,4 @@ struct SearchScreen: View {
             }
         }
     }
-    
-    private var headers: [String: String] {
-           return [
-               "Content-Type": "application/json",
-               "Authorization": "Bearer your_api_key"
-           ]
-       }
-   }
-    
-    
-    struct SearchScreen_Previews: PreviewProvider {
-        static var previews: some View {
-            SearchScreen(navigate: .constant(.search), selectedProduct: .constant(nil), searchText: .constant(""), searchResults: .constant([]))
-                .environmentObject(ShoppingListManager())
-        }
-    }
-
+}

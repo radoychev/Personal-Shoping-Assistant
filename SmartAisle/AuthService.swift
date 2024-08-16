@@ -20,7 +20,8 @@ class AuthService {
                         Firestore.firestore().collection("users").document(authResult.user.uid).setData([
                             "email": email,
                             "username": username,
-                            "created_at": Timestamp(date: Date())
+                            "created_at": Timestamp(date: Date()),
+                            "pairedWith": NSNull() // Explicitly set pairedWith to null/empty during registration
                         ]) { error in
                             if let error = error {
                                 completion(.failure(error))
@@ -33,6 +34,8 @@ class AuthService {
             }
         }
     }
+    
+    
 
     func login(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in

@@ -22,7 +22,7 @@ struct ShoppingListScreen: View {
     private var headerView: some View {
         HStack {
             Button(action: {
-                navigate = .search  
+                navigate = .search
             }) {
                 Image(systemName: "arrow.left")
                     .font(.title)
@@ -35,7 +35,7 @@ struct ShoppingListScreen: View {
                 .padding()
             Spacer()
             Button(action: {
-                navigate = .search  
+                navigate = .search
             }) {
                 Image(systemName: "magnifyingglass")
                     .font(.title)
@@ -60,11 +60,20 @@ struct ShoppingListScreen: View {
 
     private func productRow(index: Int, product: Product) -> some View {
         HStack {
+            Button(action: {
+                shoppingListManager.toggleDone(for: product)
+            }) {
+                Image(systemName: product.isDone ? "checkmark.square.fill" : "square")
+                    .foregroundColor(product.isDone ? .green : .gray)
+            }
+            .buttonStyle(PlainButtonStyle())
+            .padding(.trailing, 8)
+
             Text("\(index + 1).")
                 .font(.headline)
                 .padding(.trailing, 8)
 
-            if let imageUrl = product.imageInfo.primaryView.first?.url, let url = URL(string: imageUrl) {
+            if let imageUrl = product.imageInfo?.primaryView.first?.url, let url = URL(string: imageUrl) {
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .empty:
@@ -100,14 +109,23 @@ struct ShoppingListScreen: View {
             VStack(alignment: .leading) {
                 Text(product.title)
                     .font(.headline)
+                    .strikethrough(product.isDone, color: .gray) // Strike-through if done
 
-                Text("€\(String(format: "%.2f", product.prices.price.amount / 100))")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                if let amount = product.prices?.price.amount {
+                    Text("€\(String(format: "%.2f", amount / 100))")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .strikethrough(product.isDone, color: .gray) // Strike-through if done
+                }
             }
             Spacer()
         }
         .padding(.vertical, 5)
+    }
+
+    private func toggleDone(for index: Int) {
+        shoppingListManager.mergedShoppingList[index].isDone.toggle()
+        shoppingListManager.saveShoppingList() // Save the updated state
     }
 
     private func deleteItems(at offsets: IndexSet) {

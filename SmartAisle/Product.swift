@@ -19,14 +19,15 @@ struct ProductData: Decodable {
 struct Product: Identifiable, Codable, Hashable {
     var id: String
     var title: String
-    var prices: Prices
-    var imageInfo: ImageInfo
-    var quantity: String
+    var prices: Prices?
+    var imageInfo: ImageInfo?
+    var quantity: String?
     var description: String?
     var ingredients: String?
+    var isDone: Bool = false  // Add this property
     
     enum CodingKeys: String, CodingKey {
-        case id, title, prices, imageInfo, quantity, description
+        case id, title, prices, imageInfo, quantity, description, isDone
         case ingredients = "ingredientInfo"
     }
     
@@ -47,10 +48,11 @@ struct Product: Identifiable, Codable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         title = try container.decode(String.self, forKey: .title)
-        prices = try container.decode(Prices.self, forKey: .prices)
-        imageInfo = try container.decode(ImageInfo.self, forKey: .imageInfo)
-        quantity = try container.decode(String.self, forKey: .quantity)
+        prices = try container.decodeIfPresent(Prices.self, forKey: .prices)
+        imageInfo = try container.decodeIfPresent(ImageInfo.self, forKey: .imageInfo)
+        quantity = try container.decodeIfPresent(String.self, forKey: .quantity)
         description = try container.decodeIfPresent(String.self, forKey: .description)
+        isDone = try container.decodeIfPresent(Bool.self, forKey: .isDone) ?? false
         
         // Decode ingredients
         if let ingredientInfo = try container.decodeIfPresent([IngredientInfo].self, forKey: .ingredients) {
@@ -61,7 +63,7 @@ struct Product: Identifiable, Codable, Hashable {
     }
     
     // Explicit initializer for direct initialization
-    init(id: String, title: String, prices: Prices, imageInfo: ImageInfo, quantity: String, description: String?, ingredients: String?) {
+    init(id: String, title: String, prices: Prices?, imageInfo: ImageInfo?, quantity: String?, description: String?, ingredients: String?, isDone: Bool = false) {
         self.id = id
         self.title = title
         self.prices = prices
@@ -69,6 +71,7 @@ struct Product: Identifiable, Codable, Hashable {
         self.quantity = quantity
         self.description = description
         self.ingredients = ingredients
+        self.isDone = isDone
     }
 }
 

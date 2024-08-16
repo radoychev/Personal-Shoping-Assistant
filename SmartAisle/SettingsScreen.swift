@@ -95,11 +95,6 @@ struct SettingsScreen: View {
             .padding(.horizontal, 20)
             
             Spacer()
-            
-            Footer(navigate: $navigate)
-                .frame(maxWidth: .infinity)
-                .background(Color(red: 0.12, green: 0.51, blue: 0.68))
-                .edgesIgnoringSafeArea(.bottom)
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color(red: 0.27, green: 0.5, blue: 0.64)]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)
@@ -115,6 +110,7 @@ struct SettingsScreen: View {
     private func logout() {
         do {
             try Auth.auth().signOut()
+            UserDefaults.standard.set(false, forKey: "isLoggedIn")
             navigate = .login
         } catch let error {
             print("Error signing out: \(error.localizedDescription)")
