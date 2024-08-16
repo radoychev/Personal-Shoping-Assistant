@@ -1,13 +1,16 @@
 import SwiftUI
+import Firebase
 
 struct SettingsView: View {
+    @Binding var currentView: String
+    
     var body: some View {
-        NavigationView{
+        NavigationView {
             ZStack {
                 VStack {
                     backgroundGradient
                 }
-                VStack{
+                VStack {
                     HStack {
                         Text("Settings")
                             .font(.largeTitle)
@@ -17,9 +20,8 @@ struct SettingsView: View {
                     }
                     
                     HStack {
-                            //NavigationLink(destination: ChangePasswordScreen()){
                         RoundedRectangle(cornerRadius: 25.0)
-                            .fill(Color.box)
+                            .fill(Color.gray)
                             .frame(width: 225, height: 75)
                             .overlay(
                                 Text("Change Password")
@@ -28,14 +30,12 @@ struct SettingsView: View {
                                     .fontDesign(.rounded)
                                     .fontWeight(.bold)
                             )
-                            //}
                     }
                     .padding()
                     
                     HStack {
-                            //NavigationLink(destination: PairShoppingListScreen()){
                         RoundedRectangle(cornerRadius: 25.0)
-                            .fill(Color.box)
+                            .fill(Color.gray)
                             .frame(width: 225, height: 75)
                             .overlay(
                                 Text("Pair Shopping Lists")
@@ -44,12 +44,11 @@ struct SettingsView: View {
                                     .fontDesign(.rounded)
                                     .fontWeight(.bold)
                             )
-                            //}
                     }
                     HStack {
-                        NavigationLink(destination: About()){
+                        NavigationLink(destination: About()) {
                             RoundedRectangle(cornerRadius: 25.0)
-                                .fill(Color.box)
+                                .fill(Color.gray)
                                 .frame(width: 225, height: 75)
                                 .overlay(
                                     Text("About")
@@ -63,9 +62,11 @@ struct SettingsView: View {
                     .padding()
                     
                     HStack {
-                        //NavigationLink(destination: About()){
+                        Button(action: {
+                            logout()
+                        }) {
                             RoundedRectangle(cornerRadius: 25.0)
-                                .fill(Color.redBox)
+                                .fill(.redBox)
                                 .frame(width: 225, height: 75)
                                 .overlay(
                                     Text("Logout")
@@ -73,16 +74,25 @@ struct SettingsView: View {
                                         .foregroundColor(.accentColor)
                                         .fontDesign(.rounded)
                                         .fontWeight(.bold)
-                            )
-                        //}
+                                )
+                        }
                     }
                 }
             }
             .ignoresSafeArea()
         }
     }
+    
+    private func logout() {
+        do {
+            try Auth.auth().signOut()
+            currentView = "LandingPage"
+        } catch let error {
+            print("Error signing out: \(error.localizedDescription)")
+        }
+    }
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(currentView: .constant("SettingsView"))
 }

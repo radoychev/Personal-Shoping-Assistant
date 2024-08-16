@@ -1,24 +1,24 @@
 import SwiftUI
 
 struct Footer: View {
-    
+    @Binding var currentView: String
     @State private var selectedTab: Tab = .home
     
     var body: some View {
-        ZStack(alignment: .bottom){
+        ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
                 Spacer()
                 switch selectedTab {
                     case .home:
                         HomeView()
-                    case .list:
-                        ShoppingListView()
+                    case .shoppingList:
+                        ShoppingList()
                     case .catalogue:
-                        CatalogueView()
+                        Catalogue(selectedProduct: .constant(nil), searchText: .constant(""), searchResults: .constant([]))
                     case .scanner:
                         ScannerView()
                     case .settings:
-                        SettingsView()
+                        SettingsView(currentView: $currentView) 
                 }
                 Spacer()
             }
@@ -26,7 +26,6 @@ struct Footer: View {
             customTabBar
         }
         .edgesIgnoringSafeArea(.bottom)
-        
     }
     
     private var customTabBar: some View {
@@ -49,7 +48,7 @@ struct Footer: View {
                         }
                     }
                 }
-                Spacer() // Ensure tabs are spaced evenly
+                Spacer()
             }
         }
         .padding(.vertical, 10)
@@ -59,12 +58,12 @@ struct Footer: View {
 }
 
 #Preview {
-    Footer()
+    Footer(currentView: .constant("SettingsView"))
 }
 
 enum Tab: String, CaseIterable {
     case home = "house"
-    case list = "list.bullet.rectangle"
+    case shoppingList = "list.bullet.rectangle"
     case catalogue = "book"
     case scanner = "opticid"
     case settings = "gearshape"
@@ -73,7 +72,7 @@ enum Tab: String, CaseIterable {
         switch self {
             case .home:
                 return "Home"
-            case .list:
+            case .shoppingList:
                 return "List"
             case .catalogue:
                 return "Catalogue"
