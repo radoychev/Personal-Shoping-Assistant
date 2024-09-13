@@ -70,9 +70,7 @@ struct ProductDetailView: View {
 
                         // Add to Shopping List Button
                         Button(action: {
-                            shoppingListManager.addToShoppingList(productDetails)
-                            alertMessage = "\(productDetails.title) has been added to your shopping list!"
-                            showAlert = true
+                            addToShoppingList(productDetails)
                         }) {
                             Text("Add to Shopping List")
                                 .font(.headline)
@@ -119,14 +117,28 @@ struct ProductDetailView: View {
     func fetchProductDetails() {
         NetworkManager.shared.getProductDetails(productID: product.id) { result in
             switch result {
-            case .success(let productDetails):
+            case .success(let fetchedProductDetails):
                 DispatchQueue.main.async {
-                    self.productDetails = productDetails
+                    self.productDetails = fetchedProductDetails
                 }
             case .failure(let error):
                 print("Error fetching product details: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.alertMessage = "Failed to load product details. Please try again later."
+                    self.showAlert = true
+                }
             }
         }
+    }
+
+    func addToShoppingList(_ product: Product) {
+        if shoppingListManager.shoppingList.contains(where: { $0.id == product.id }) {
+            alertMessage = "\(product.title) is already in your shopping list!"
+        } else {
+            shoppingListManager.addToShoppingList(product)
+            alertMessage = "\(product.title) has been added to your shopping list!"
+        }
+        showAlert = true
     }
 }
 

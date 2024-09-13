@@ -12,7 +12,7 @@ struct ProductDetailScreen: View {
                 if let productDetails = viewModel.productDetails {
                     ProductImageView(imageUrl: productDetails.imageInfo?.primaryView.first?.url)
                     ProductInfoView(productDetails: productDetails)
-                    AddToCartButton(product: productDetails) // Pass productDetails to AddToCartButton
+                    
                     ProductDescriptionView(description: productDetails.description)
                     ProductIngredientsView(ingredients: productDetails.ingredients)
                 } else if viewModel.isLoading {
@@ -21,9 +21,21 @@ struct ProductDetailScreen: View {
                             viewModel.fetchProductDetails(productID: product.id)
                         }
                 } else if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
+                    VStack {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding()
+                        Button(action: {
+                            viewModel.fetchProductDetails(productID: product.id)
+                        }) {
+                            Text("Retry")
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
                         .padding()
+                    }
                 }
             }
             .navigationBarTitle(Text(product.title), displayMode: .inline)
@@ -35,37 +47,13 @@ struct ProductDetailScreen: View {
             })
         }
         .onAppear {
-            viewModel.fetchProductDetails(productID: product.id)
+            if viewModel.productDetails == nil { // Fetch details only if not already loaded
+                viewModel.fetchProductDetails(productID: product.id)
+            }
         }
     }
 }
 
-struct AddToCartButton: View {
-    let product: Product
-    @EnvironmentObject var shoppingListManager: ShoppingListManager
-    @State private var showAlert = false
-    @State private var alertMessage = ""
-
-    var body: some View {
-        Button(action: {
-            shoppingListManager.addToShoppingList(product)
-            alertMessage = "\(product.title) has been added to your shopping list!"
-            showAlert = true
-        }) {
-            Text("Add to Shopping List")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.green)
-                .cornerRadius(10)
-                .padding(.horizontal)
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Item Added"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-        }
-    }
-}
 
 struct ProductImageView: View {
     let imageUrl: String?
@@ -139,7 +127,7 @@ struct ProductDescriptionView: View {
                 .padding(.top, 8)
                 .padding(.horizontal)
 
-            if let description = description {
+            if let description = description, !description.isEmpty {
                 Text(description)
                     .padding(.horizontal)
                     .padding(.bottom, 8)
@@ -162,7 +150,7 @@ struct ProductIngredientsView: View {
                 .padding(.top, 8)
                 .padding(.horizontal)
 
-            if let ingredients = ingredients {
+            if let ingredients = ingredients, !ingredients.isEmpty {
                 Text(ingredients)
                     .padding(.horizontal)
                     .padding(.bottom, 8)
